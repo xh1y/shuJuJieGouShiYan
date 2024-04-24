@@ -9,15 +9,15 @@ int kmp(string s, string t, int pos, int next[]);
 void getNext(string t, int next[]);
 void virus();
 void kmpTest() {
-    string s = "aabccdxdxbxa";
-    string t = "abc";
+    string s = "abaabcea";
+    string t = "baab";
     int *next = new int[t.length() + 1];
     getNext(t, next);
     cout << kmp(s, t, 0, next);
 }
 
 int main() {
-    // virus();
+    virus();
     kmpTest();
     return 0;
 }
@@ -25,7 +25,9 @@ int main() {
 int kmp(string s, string t, int pos, int next[]) {
     int i = pos;
     int j = 0;
-    while (i < s.length() && j < t.length()) {
+    int sl = s.length();
+    int tl = t.length();
+    while (i < sl && j < tl) {
         if (j == -1 || s[i] == t[j]) {
             i++;
             j++;
@@ -33,8 +35,8 @@ int kmp(string s, string t, int pos, int next[]) {
             j = next[j];
         }
     }
-    if (j >= t.length()) {
-        return i - j + pos; // Return the starting position of the match
+    if (j == tl) {
+        return i - j; // Return the starting position of the match
     } else {
         return -1; // Return -1 if not found
     }
@@ -42,8 +44,8 @@ int kmp(string s, string t, int pos, int next[]) {
 
 void getNext(string t, int next[]) {
     int i = 0;
-    next[0] = -1;
     int j = -1;
+    next[0] = -1;
     while (i < t.length() - 1) {
         if (j == -1 || t[i] == t[j]) {
             i++;
@@ -54,6 +56,7 @@ void getNext(string t, int next[]) {
         }
     }
 }
+
 
 void virus() {
     ifstream inFile("input.txt");
@@ -88,7 +91,6 @@ void virus() {
         } else {
             outFile << std::left << setfill(' ') << setw(10) << vir << setw(10) << person << "\t" << "No" << endl;
         }
-
     }
 }
 
