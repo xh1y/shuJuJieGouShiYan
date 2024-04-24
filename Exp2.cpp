@@ -1,151 +1,132 @@
 #include <iostream>
-#include <cstdlib>
-#include <cctype>
-#include <ctype.h>
 using namespace std;
+
+const char oper[7] = { '+', '-', '*', '/', '(', ')', '=' };
 typedef char SElemType;
-typedef enum { illegal = -2, smaller = -1, same, bigger } compare;
+
 typedef struct StackNode {
     SElemType data;
     struct StackNode* next;
-} StackNode, * Stack;
+} StackNode, * LinkStack;
+typedef enum compare {smaller = -1, same, bigger} compare;
+void InitStack(LinkStack& S);
+bool StackEmpty(LinkStack S);
+void Push(LinkStack& S, SElemType e);
+void Pop(LinkStack& S, SElemType& e);
+SElemType GetTop(LinkStack& S);
+bool In(char ch);
+compare Precede(char op1, char op2);
+char Operate(char first, char op, char second);
+char EvaluateExpression();
 
-void InitStack(Stack& S) {
-    S = NULL;
+int main() {
+    cout << "请输入要计算的表达式（操作数和结果都在0-9的范围内，以=结束）：" << endl;
+    char res = EvaluateExpression();
+    cout << "计算结果为" << res - 48 << endl << endl;
+    return 0;
 }
 
-void Push(Stack& S, SElemType e) {
-    Stack p;
-    p = new StackNode;
+void InitStack(LinkStack& S) {
+    S = NULL;
+    
+}
+
+bool StackEmpty(LinkStack S) {
+    return !S;
+}
+
+void Push(LinkStack& S, SElemType e) {
+    StackNode* p = new StackNode;
+    if (!p) {
+        exit(0);
+    }
     p->data = e;
     p->next = S;
     S = p;
+    
 }
 
-SElemType Pop(Stack &S) {
-    Stack p;
-    SElemType e;
-    if (S == NULL)
-        e = '\0';
+void Pop(LinkStack& S, SElemType& e) {
+    StackNode* p;
+    if (!S)
+        return ;
     e = S->data;
     p = S;
     S = S->next;
     delete p;
-    return e;
+    
 }
+SElemType GetTop(LinkStack& S) {
+    if (!S)
+        return ;
 
-void Pop(Stack& S, SElemType& e) { // 这是书上的写法
-    Stack p;
-    if (S == NULL)
-        e = '\0';
-    e = S->data;
-    p = S;
-    S = S->next;
-    delete p;
+    return S->data;
 }
-
-SElemType GetTop(Stack S) {
-    if (S != nullptr)
-        return S->data;
+bool In(char ch) {
+    for (int i = 0; i < 7; i++) {
+        if (ch == oper[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+compare Precede(char op1, char op2) {
+    if ((op1 == '(' && op2 == ')') || (op1 == '=' && op2 == '=')) {
+        return same;
+    }
+    else if (op1 == '(' || op1 == '=' || op2 == '(' || (op1
+        == '+' || op1 == '-') && (op2 == '*' || op2 == '/')) {
+        return smaller;
+    }
     else
-        return '\0';
+        return bigger;
 }
-
-int getIndex(char op) {
-    int index = -1;
+char Operate(char first, char op, char second) {
     switch (op) {
     case '+':
-        index = 0;
-        break;
+        return (first - '0') + (second - '0') + 48;
     case '-':
-        index = 1;
-        break;
+        return (first - '0') - (second - '0') + 48;
     case '*':
-        index = 2;
-        break;
+        return (first - '0') * (second - '0') + 48;
     case '/':
-        index = 3;
-        break;
-    case '(':
-        index = 4;
-        break;
-    case ')':
-        index = 5;
-        break;
-    case '#':
-        index = 6;
-        break;
-    default:
-        index = -1;
-        break;
+        return (first - '0') / (second - '0') + 48;
     }
-    return index;
-}
-
-compare comparePriority(SElemType a, SElemType b) {
-    const compare priority[][7] = {
-        {bigger, bigger, smaller, smaller, smaller, bigger, bigger},
-        {bigger, bigger, smaller, smaller, smaller, bigger, bigger},
-        {bigger, bigger, bigger, bigger, smaller, bigger, bigger},
-        {bigger, bigger, bigger, bigger, smaller, bigger, bigger},
-        {smaller, smaller, smaller, smaller, smaller, same, illegal},
-        {bigger, bigger, bigger, bigger, illegal, bigger, bigger},
-        {smaller, smaller, smaller, smaller, smaller, illegal, same}
-    };
-    return priority[getIndex(a)][getIndex(b)];
-}
-
-int main() {
-    Stack optr = new StackNode;
-    Stack number = new StackNode;
-    SElemType element, pop;
-    SElemType res = 0;
-    Pop(optr);
-    Pop(number);
-    while (element = cin.get() != '=') {
-        if (isdigit(element)) {
-            Push(number, element);
-        }
-        else {
-            if(getIndex(element) >= 0) {
-                compare cmp = comparePriority(GetTop(optr), element);
-                if(cmp == smaller) {
-                    Push(optr, element);
-                } else if(cmp == same) {
-                    Pop(optr, pop);
-                } else {
-                    SElemType num1;
-                    SElemType num2;
-                    SElemType op1;
-                    Pop(number, num1);
-                    Pop(number, num2);
-                    if(num2 == '\0') {
-
-                    } else {
-                        Pop(optr, op1);
-                        SElemType result;
-                        switch (op1) {
-                        case '+':
-                            result = num1 + num2;
-                            break;
-                        case '-':
-                            result = num1 - num2;
-                            break;
-                        case '*':
-                            result = num1 * num2;
-                            break;
-                        case '/':
-                            result = num1 / num2;
-                            break;
-                        case '#':
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    Pop(number, res);
-    cout << (int)res;
     return 0;
+}
+
+
+char EvaluateExpression() {
+    LinkStack optr, numbers;
+    char ch, op, a, b, x, top;
+    InitStack(numbers); 
+    InitStack(optr); 
+    Push(optr, '='); 
+    cin >> ch;
+    while (ch != '=' || (GetTop(optr) != '=')) 
+    {
+        if (!In(ch)) {
+            Push(numbers, ch);
+            cin >> ch;
+        } 
+        else
+            switch (Precede(GetTop(optr), ch)) 
+            {
+            case smaller:
+                Push(optr, ch);
+                cin >> ch; 
+                break;
+            case bigger:
+                Pop(optr, op); 
+                Pop(numbers, b);
+                Pop(numbers, a); 
+                Push(numbers, Operate(a, op, b)); 
+                break;
+            case same: 
+                Pop(optr, x);
+                cin >> ch; 
+                break;
+            } 
+    } 
+    return GetTop(numbers); 
 }
