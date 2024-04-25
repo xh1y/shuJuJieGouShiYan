@@ -2,23 +2,43 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
-// using namespace std;
-using std::cin, std::cout, std::endl, std::string, std::ifstream, std::ofstream, std::setw, std::setfill;
+using namespace std;
 
 int kmp(string s, string t, int pos, int next[]);
 void getNext(string t, int next[]);
-void virus();
-void kmpTest() {
-    string s = "abaabcea";
-    string t = "baab";
-    int *next = new int[t.length() + 1];
-    getNext(t, next);
-    cout << kmp(s, t, 0, next);
-}
 
 int main() {
-    virus();
-    kmpTest();
+    ifstream inFile("input.txt");
+    ofstream outFile("output.txt");
+    int num;
+    string virus, person;
+    inFile >> num;
+    outFile << std::left << setfill(' ') << setw(10) << "Virus" << setw(20) << "Person" << '\t' << "Effected" << endl;
+    while (num--) {
+        inFile >> virus;
+        inFile >> person;
+
+        string vir = virus;
+        bool flag = false;
+        int virLen = virus.length();
+        virus += virus;
+        string temp;
+        for (int i = 0; i < virLen; i++) {
+            temp = virus.substr(i, virLen);
+            int *next = new int[temp.length() + 1];
+            getNext(temp, next);
+            flag = kmp(person, temp, 0, next) != -1;
+            delete[] next;
+            if (flag) {
+                break;
+            }
+        }\
+            if (flag) {
+                outFile << left << setfill(' ') << setw(10) << vir << setw(20) << person << "\t" << "Yes" << endl;
+            } else {
+                outFile << left << setfill(' ') << setw(10) << vir << setw(20) << person << "\t" << "No" << endl;
+            }
+    }
     return 0;
 }
 
@@ -56,41 +76,3 @@ void getNext(string t, int next[]) {
         }
     }
 }
-
-
-void virus() {
-    ifstream inFile("input.txt");
-    ofstream outFile("output.txt");
-    int num;
-    string virus, person;
-    inFile >> num;
-    while(num--) {
-        inFile >> virus;
-        inFile >> person;
-
-        string vir = virus;
-        bool flag = false;
-        int virLen = virus.length();   
-        // for(int i = virLen, j = 0; j < virLen; j++) {
-            virus += virus;  
-        // }
-        string temp;
-        for(int i = 0; i < virLen; i++) {
-            temp = virus.substr(i, virLen);
-            int *next = new int[temp.length() + 1];
-            getNext(temp, next);
-            flag = kmp(person, temp, 0, next) != -1;
-            
-            delete[] next;
-            if (flag) {
-                break;
-            }
-        }
-        if (flag) {
-            outFile << std::left << setfill(' ') << setw(10) << vir << setw(10) << person << "\t" << "Yes" << endl;
-        } else {
-            outFile << std::left << setfill(' ') << setw(10) << vir << setw(10) << person << "\t" << "No" << endl;
-        }
-    }
-}
-
