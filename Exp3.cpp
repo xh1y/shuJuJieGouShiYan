@@ -32,7 +32,7 @@ int main() {
             if (flag) {
                 break;
             }
-        }\
+        }
             if (flag) {
                 outFile << left << setfill(' ') << setw(10) << vir << setw(20) << person << "\t" << "Yes" << endl;
             } else {
