@@ -15,7 +15,9 @@ bool equal0(string a) {
 int main() {
     std::string s = "s ";
     std::string t = "s";
-   ;
+    s += ' ';
+    s += 'f';
+    cout << s << endl;;
     std::string a = "sfd g sgf fdg s hfd g hf ";
     for (auto i = a.begin(); i <= a.end(); i++) {
         if (!isspace(*i)) {
