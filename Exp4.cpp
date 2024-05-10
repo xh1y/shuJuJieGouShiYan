@@ -7,7 +7,7 @@ typedef struct WordAndWeight {
     char data;
     int weight;
     string codes;
-} WordAndWeight; // C++ 中struct wordAndWeight可简写成wordAndWeight
+} WordAndWeight; 
 
 typedef struct {
     // char data;
@@ -21,13 +21,15 @@ typedef struct {
 
 
 typedef vector<WordAndWeight> vec_waw;
-string subreplace(string resource_str, string sub_str, string new_str);
+// string subreplace(string resource_str, string sub_str, string new_str);
 void CreateHuffmanTree(HuffmanTree &huffmanTree, int n, vec_waw waw);
 void Select(HuffmanTree &HuffmanTree, int n, int &s1, int &s2);
 void calculateStringWeight(string s, int weightOfEveryCharacter[], int n);
 void huffmanChangeToCode(HuffmanTree huffmanTree, int nowRoot);
-void huffmanDecode(string code, vec_waw waw);
+// void huffmanDecode(string code, vec_waw waw);
 bool equal0(string a);
+void huffmanDecode(string code, HuffmanTree huffmanTree, int size);
+bool getValue(string code, HuffmanTree huffmanTree, int size);
 int main() {
     vector<string> Strings;
     string s;
@@ -75,7 +77,8 @@ int main() {
         }
 
         cout << endl << newS << endl;
-        huffmanDecode(newS, waw);
+        huffmanDecode(newS,  huffmanTree, size * 2 - 1);
+        cout << endl;
         delete[] huffmanTree;
         delete[] weightOfEveryCharacter;
     }
@@ -191,33 +194,55 @@ void huffmanChangeToCode(HuffmanTree huffmanTree, int nowRoot) {
     }
 }
 
-void huffmanDecode(string code, vec_waw waw) {
-    string before = code;
-    vec_waw copy = waw;
-    for(int i = 1; i < waw.size() - 1; i++) {
-        for(int j = i + 1; j < waw.size(); j++) {
-            if ((waw[i].codes.length() == waw[j].codes.length() and waw[i].codes.compare(waw[j].codes) > 0) or waw[i].codes.length() > waw[j].codes.length()) {
-                WordAndWeight temp;
-                temp = waw[i];
-                waw[i] = waw[j];
-                waw[j] = temp;
-            }
+
+
+void huffmanDecode(string code,  HuffmanTree huffmanTree, int size) {
+    // string before = code;
+    // vec_waw copy = waw;
+    // for (int i = 1; i < waw.size() - 1; i++) {
+    //     for (int j = i + 1; j < waw.size(); j++) {
+    //         if ((waw[i].codes.compare(waw[j].codes) > 0)) {
+    //             WordAndWeight temp;
+    //             temp = waw[i];
+    //             waw[i] = waw[j];
+    //             waw[j] = temp;
+    //         }
+    //     }
+    // }
+
+    // for(int i = 0; i < code.length(); i++) {
+    //     for() 
+    // }
+    // cout << before << endl;
+    int i = 1;
+    int startPlace = 0;
+    while (i < code.length()) {
+        // cout << waw[i].codes << ": " << waw[i].data << endl;
+        while (!getValue(code.substr(startPlace, i - startPlace), huffmanTree, size)) {
+            i++;
         }
+        startPlace = i;
+        i = startPlace + 1;
     }
-    
-    for (int i = waw.size() - 1; i >= 1; i--) {
-        string emptyString = "";
-        emptyString.push_back(waw[i].data);
-        before = subreplace(before, waw[i].codes, emptyString);
-    }
-    cout << before << endl;
 }
 
-string subreplace(string resource_str, string sub_str, string new_str) {
-    string dst_str = resource_str;
-    string::size_type pos = 0;
-    while ((pos = dst_str.find(sub_str)) != string::npos) { //find函数在找不到指定值得情况下会返回string::npos
-        dst_str.replace(pos, sub_str.length(), new_str);
+bool getValue(string code, HuffmanTree huffmanTree, int size) {
+    // const auto root = huffmanTree[size];
+    // HTNode &p = root;
+    HuffmanTree s = new HTNode;
+    s = &huffmanTree[size];
+    for (int i = 0; i < code.length(); i++) {
+        if (code[i] == '0') {
+            s = &huffmanTree[s->lchild];
+        } else {
+            s = &huffmanTree[s->rchild];
+        }
     }
-    return dst_str;
+    if (islower(s->wordAndWeight.data)) {
+        cout << s->wordAndWeight.data;
+        return true;
+    } else {
+        return false;
+    }
+    delete s;
 }

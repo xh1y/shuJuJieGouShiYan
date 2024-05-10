@@ -43,10 +43,9 @@ int main() {
     };
     while (true) {
         int s;
-        int key = 1;
         cout << "请输入选择的编号：" << endl;
         for (int i = 0; i < 6; i++) {
-            cout << key++ << ": " << choices[i] << endl;
+            cout << i + 1 << ": " << choices[i] << endl;
         }
         cout << "0: 退出" << endl;
         cin >> s;
