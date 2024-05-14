@@ -15,13 +15,14 @@ int InitExpTree(string expression);
 bool isLegalOperator(char c);
 void CreateExpTree(BinaryTree &binaryTree, BinaryTree leftChild, BinaryTree rightChild, char rootData);
 int EvaluateExpTree(BinaryTree binaryTree);
-void discardSpace(string &s);
+void discardIllegalCharacter(string &s);
 int GetValue(char thetha, int a, int b);
 int main() {
     string s = "";
     vector<string> Strings;
+    cout << "请输入要计算的表达式（以=结束）：" << endl;
     while(getline(cin, s) && s != "=") {
-        discardSpace(s);
+        discardIllegalCharacter(s);
         Strings.push_back(s);
     }
     for(int i = 0; i < Strings.size(); i++) {
@@ -34,7 +35,7 @@ int main() {
             err = true;
         }
         if (err) {
-            cout << Strings[i] << "invalid" << endl;
+            cout << Strings[i] << " is an invalid expression." << endl;
         } else {
             cout << Strings[i] << val << endl;
         }
@@ -66,10 +67,16 @@ int InitExpTree(string expression) {
                 optr.push(expression[i]);
                 break;
             case bigger:
+                if (expt.size() < 2 || optr.size() == 0) {
+                    throw "Illegal expression!";
+                    return 0;
+                }
                 operatorPop = optr.top();
                 treePop2 = expt.top();
+                
                 optr.pop();
                 expt.pop();
+                
                 treePop1 = expt.top();
                 expt.pop();
                 CreateExpTree(binaryTree, treePop1, treePop2, operatorPop);
@@ -122,11 +129,7 @@ int EvaluateExpTree(BinaryTree binaryTree) {
         leftValue = EvaluateExpTree(binaryTree->lchild);
         rightValue = EvaluateExpTree(binaryTree->rchild);
         int val = 0;
-        // try {
-            val = GetValue(binaryTree->data, leftValue, rightValue);
-        // } catch (char const *e) {
-        //     cout << e << endl;
-        // }
+        val = GetValue(binaryTree->data, leftValue, rightValue);
         return val;
     }
 }
@@ -156,7 +159,7 @@ int GetValue(char thetha, int a, int b) {
     // return -0xFFFFFFFF;
 }
 
-void discardSpace(string &s) {
+void discardIllegalCharacter(string &s) {
     string t = "";
     for(string::iterator i = s.begin(); i <= s.end(); i++) {
         if(!isspace(*i) and (isLegalOperator(*i) or isdigit(*i))) {

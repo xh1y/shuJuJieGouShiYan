@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include <iomanip>
 using namespace std;
 
 typedef struct student {
@@ -10,7 +11,8 @@ typedef struct student {
     friend ostream &operator<<(ostream &os, student s);
 } student;
 ostream &operator<<(ostream &os, student s) {
-    cout << s.name << " " << s.score;
+    cout.setf(ios_base::fixed, ios_base::floatfield);
+    cout << s.name << " " << setprecision(2) << s.score;
     return os;
 }
 
@@ -197,11 +199,11 @@ void getLevel(vec_stu students) {
         int now = students[i].score;
         rank[i] = nowRank;
         while (students[i + 1].score == now) {
-            cout << rank[i] << ": " << students[i].name << " " << students[i].score << endl;
+            cout << rank[i] << ": " << students[i] << endl;
             i++;
             rank[i] = nowRank;
         }
         nowRank++;
-        cout << rank[i] << ": " << students[i].name << " " << students[i].score << endl;
+        cout << rank[i] << ": " << students[i] << endl;
     }
 }
