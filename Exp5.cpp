@@ -136,8 +136,8 @@ int EvaluateExpTree(BinaryTree binaryTree) {
     }
 }
 
-int GetValue(char thetha, int a, int b) {
-    switch (thetha) {
+int GetValue(char op, int a, int b) {
+    switch (op) {
     case '+':
         return a + b;
         break;
