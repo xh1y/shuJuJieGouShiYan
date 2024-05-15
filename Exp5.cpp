@@ -1,9 +1,11 @@
 #include <iostream>
-#include <stack>
 #include <string>
 #include <vector>
 #include <cctype>
+#include <stack>
+
 using namespace std;
+
 typedef enum { smaller = -1, same, bigger } compare;
 
 typedef struct BinaryTreeNode {
@@ -20,7 +22,7 @@ int GetValue(char thetha, int a, int b);
 int main() {
     string s = "";
     vector<string> Strings;
-    cout << "请输入要计算的表达式（以=结束）：" << endl;
+    cout << "请输入要计算的表达式(以=结束,退出输入请在最后一行输入一个=): " << endl;
     while(getline(cin, s) && s != "=") {
         discardIllegalCharacter(s);
         Strings.push_back(s);
@@ -155,8 +157,6 @@ int GetValue(char thetha, int a, int b) {
     default:
         return 0;
     }
-
-    // return -0xFFFFFFFF;
 }
 
 void discardIllegalCharacter(string &s) {

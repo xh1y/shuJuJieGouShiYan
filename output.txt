@@ -11,3 +11,6 @@ cde       cdcdcdec            	Yes
 cced      cdccdcce            	Yes
 bcd       aabccdxdxbxa        	No
 abb       bbbbbbbbabbbbbb     	Yes
+abbab     abbabaab            	Yes
+baa       cacdveabacsd        	Yes
+abe       def                 	No

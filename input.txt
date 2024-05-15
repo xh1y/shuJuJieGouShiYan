@@ -1,4 +1,4 @@
-12
+15
 baa bbaabbba 
 baa aaabbbba
 aabb abceaabb
@@ -11,3 +11,6 @@ cde cdcdcdec
 cced cdccdcce
 bcd aabccdxdxbxa
 abb bbbbbbbbabbbbbb
+abbab abbabaab
+baa cacdveabacsd
+abe def

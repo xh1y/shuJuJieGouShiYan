@@ -42,6 +42,12 @@ int main() {
         Edge[a].push_back(b);
         Edge[b].push_back(a);
     }
+    for(int i = 0; i < Edge.size(); i++) {
+        for(int j = 0; j < Edge[i].size(); j++) {
+            cout << Edge[i][j] << " ";
+        }
+        cout << endl;
+    }
     for (int i = 1;i <= N;i++) {
         BFS(i);
         double res = (sum * 1.0) / N;

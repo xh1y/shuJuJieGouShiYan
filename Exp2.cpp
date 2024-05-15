@@ -1,6 +1,7 @@
 #include <iostream>
-#include <cctype>
 #include <cstdlib>
+#include <cctype>
+
 using namespace std;
 
 const char oper[7] = { '+', '-', '*', '/', '(', ')', '=' };

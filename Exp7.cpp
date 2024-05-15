@@ -18,19 +18,14 @@ typedef struct Group {
     vector<relation> relations;
 } Group;
 
-typedef vector<bool> vec_int;
-typedef vector<vec_int> vec_vec_int;
+typedef vector<bool> vec_bool;
+typedef vector<vec_bool> vec_vec_bool;
 typedef vector<Group> vec_grp;
 
-// typedef struct vec_vec_int {
-    // vec_int points; 
-//     vec_vec_int value;
-// } vec_vec_int;
-
-void getGraph(vec_vec_int& graph, Group group);
-void useBFS(vec_vec_int graph, int start, int total);
-int firstAdjVex(vec_vec_int graph, int u);
-int nextAdjVex(vec_vec_int graph, int u, int w);
+void getGraph(vec_vec_bool& graph, Group group);
+void useBFS(vec_vec_bool graph, int start, int total);
+// int firstAdjVex(vec_vec_bool graph, int u);
+// int nextAdjVex(vec_vec_bool graph, int u, int w);
 int main() {
     int people, relations;
     vec_grp groups;
@@ -49,87 +44,74 @@ int main() {
     }
 
     for (int question = 0; question < groups.size(); question++) {
-        vec_vec_int graph(groups[question].peopleNum, vec_int(groups[question].peopleNum, false));
+        vec_vec_bool graph(groups[question].peopleNum, vec_bool(groups[question].peopleNum, false));
         // for (int i = 0; i < groups[question].peopleNum; i++) {
         //     for (int j = 0; j < groups[question].peopleNum; j++) {
         //         graph[i][j] = false;
         //     }
         // }
         getGraph(graph, groups[question]);
-        for(int i = 0; i < graph.size(); i++) {
-            for(int j = 0; j < graph[i].size(); j++) {
-                cout << setw(3) << graph[i][j] << " ";
-            }
-            cout << endl;
-        }
+        // for (int i = 0; i < graph.size(); i++) {
+        //     for (int j = 0; j < graph[i].size(); j++) {
+        //         cout << setw(3) << graph[i][j] << " ";
+        //     }
+        //     cout << endl;
+        // }
         for (int i = 0; i < graph.size(); i++) {
             useBFS(graph, i, graph.size());
         }
     }
 }
 
-void getGraph(vec_vec_int& graph, Group group) {
+void getGraph(vec_vec_bool& graph, Group group) {
     for (int i = 0; i < group.relationNum; i++) {
         graph[group.relations[i].person_a - 1][group.relations[i].person_b - 1] = true;
         graph[group.relations[i].person_b - 1][group.relations[i].person_a - 1] = true;
     }
 }
 
-void useBFS(vec_vec_int graph, int start, int total) {
-    int notOverSeven = 1;
+void useBFS(vec_vec_bool graph, int start, int total) {
     bool* visited = new bool[total + 1];
-    for(int i = 0; i < total + 1; i++) {
+    for (int i = 0; i < total + 1; i++) {
         visited[i] = false;
     }
     visited[start] = true;
     queue<int> q;
+    vector<int> vi;
+
+    int count = 1;
+    int levelNow = 0;
     q.push(start);
-    int* level = new int[total + 1];
-    level[0] = 1;
-    for (int len = 1; len < 6 && !q.empty(); len++) {
-        for (int i = 0; i < level[len - 1]; i++) {
-            int u = q.front();
-            q.pop();
-            for (int w = firstAdjVex(graph, u); w >= 0; w = nextAdjVex(graph, u, w)) {
-                if (!visited[w]) {
-                    visited[w] = true;
-                    notOverSeven++;
-                    level[len]++;
-                    q.push(w);
-                }
+    int t;
+    visited[start] = true;
+    int level = 0, last = start, tail;//level表示在第几层目前  一开始初始为0  last这一层的最后一个元素  tail：进队列的最后一个元素 
+    while (!q.empty()) {
+        t = q.front();
+        q.pop();
+        for (int i = 0; i < graph[t].size(); i++) {
+            if (graph[t][i]) {
+                vi.push_back(i);
             }
-            
         }
-    }
-    cout << start + 1 << ": " << setprecision(2) <<  notOverSeven   << endl;
-    delete[] visited;
-    delete[] level;
-}
-
-int firstAdjVex(vec_vec_int graph, int u) {
-    // vector<int> next;
-    for (int j = 0; j < graph[u].size(); j++) {
-        if (graph[u][j] != false) {
-            // next.push_back(j);
-            return j;
+        for (int i = 0;i < vi.size();i++) {
+            if (!visited[vi[i]]) {
+                q.push(vi[i]);
+                visited[vi[i]] = true;
+                count++;
+                tail = vi[i];
+            }
+        }
+        if (t == last) {
+            levelNow++;
+            last = tail;
+        }
+        if (levelNow == 6)
             break;
-        }
     }
-
-    return -1;
-}
-
-int nextAdjVex(vec_vec_int graph, int u, int w) {
-    // bool to_w = false;
-    for (int j = w + 1; j < graph[u].size(); j++) {
-        if (graph[u][j] == true) {
-            return j;
-            break;
-        }
-        // if (j == w) {
-        //     to_w = true;
-        // }
-    }
-
-    return -1;
+    double res = (count * 1.0) / total;
+    // printf("%d: %.2f%%", start, res * 100);
+    cout.setf(ios_base::fixed, ios_base::floatfield);
+    cout << start + 1 << ": " << setprecision(2) << res * 100 << "%" << endl;
+    // if (start != total)
+    //     cout << endl;
 }

@@ -3,6 +3,7 @@
 #include <cstring>
 #include <iomanip>
 #include <string>
+
 using namespace std;
 
 typedef struct {

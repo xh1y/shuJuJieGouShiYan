@@ -154,7 +154,7 @@ void calculateStringWeight(string s, int weightOfEveryCharacter[], int n) {
 bool equal0(string a) {
     string newString;
     string z = "0";
-    for (auto i = a.begin(); i <= a.end(); i++) {
+    for (string::iterator i = a.begin(); i <= a.end(); i++) {
         if (!isspace(*i) && *i != '\0') {
             newString.push_back(*i);
         }

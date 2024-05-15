@@ -1,7 +1,7 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
-#include <iomanip>
 #include <stack>
 
 using namespace std;
@@ -22,8 +22,8 @@ typedef struct oneAnswer {
     string startCity, endCity;
 } oneAnswer;
 
-typedef vector<int> vec_int;
-typedef vector<vec_int> vec_vec_int;
+typedef vector<int> vec_bool;
+typedef vector<vec_bool> vec_vec_int;
 typedef vector<oneAnswer> vec_oa;
 
 vec_vec_int createGraph(oneAnswer oa);

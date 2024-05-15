@@ -1,7 +1,8 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <iomanip>
+#include <string>
+
 using namespace std;
 
 int kmp(string s, string t, int pos, int next[]);
