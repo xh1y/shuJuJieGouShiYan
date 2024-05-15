@@ -14,65 +14,69 @@ typedef struct {
 
 typedef struct LNode {
     Book data;
-    struct LNode *next;
-} LNode, *LinkList;
+    struct LNode* next;
+} LNode, * LinkList;
 
-void inputBook(LinkList &a);
-void initList(LinkList &a);
-void printDetail(LinkList &a);
-void part1_add(LinkList &L);
-void part2_modify(LinkList &L);
-void modify(LinkList &L);
+void inputBook(LinkList& a);
+void initList(LinkList& a);
+void printDetail(LinkList& a);
+void part1_add(LinkList& L);
+void part2_modify(LinkList& L);
+void modify(LinkList& L);
 int countNum(LinkList p);
-float getAverage(LinkList &L);
+float getAverage(LinkList& L);
 void part3_findMax(LinkList L);
 void part4_insert(LinkList L);
-void insertBook(LinkList &L);
-void deleteBook(LinkList &L, int deletePlace);
-void part5_deleteBook(LinkList &L);
-void part6_findSameBook(LinkList &L);
-void findSameBook(LinkList &L);
+void insertBook(LinkList& L);
+void deleteBook(LinkList& L, int deletePlace);
+void part5_deleteBook(LinkList& L);
+void part6_findSameBook(LinkList& L);
+void findSameBook(LinkList& L);
 
 int main() {
     LinkList L;
     initList(L);
     const string choices[] = {
-        "æ–°å»ºå›¾ä¹¦ä¿¡æ¯è¡¨", "ä¿®æ”¹ä¿¡æ¯è¡¨ï¼Œå°†æ‰€æœ‰ä½äºå¹³å‡ä»·æ ¼çš„å›¾ä¹¦ä»·æ ¼æé«˜ 20 %ï¼Œæ‰€æœ‰é«˜äºæˆ–ç­‰äºå¹³å‡ä»·æ ¼çš„å›¾ä¹¦ä»·æ ¼æé«˜10 %",
-        "æŸ¥æ‰¾æœ€è´µçš„å›¾ä¹¦", "å…¥åº“æ–°å›¾ä¹¦", "æ—§å›¾ä¹¦çš„å‡ºåº“", "å›¾ä¹¦å»é‡"
+        "ĞÂ½¨Í¼ÊéĞÅÏ¢±í", "ĞŞ¸ÄĞÅÏ¢±í£¬½«ËùÓĞµÍÓÚÆ½¾ù¼Û¸ñµÄÍ¼Êé¼Û¸ñÌá¸ß 20 %£¬ËùÓĞ¸ßÓÚ»òµÈÓÚÆ½¾ù¼Û¸ñµÄÍ¼Êé¼Û¸ñÌá¸ß10 %",
+        "²éÕÒ×î¹óµÄÍ¼Êé", "Èë¿âĞÂÍ¼Êé", "¾ÉÍ¼ÊéµÄ³ö¿â", "Í¼ÊéÈ¥ÖØ"
     };
     while (true) {
         int s;
-        cout << "è¯·è¾“å…¥é€‰æ‹©çš„ç¼–å·ï¼š" << endl;
+        cout << "ÇëÊäÈëÑ¡ÔñµÄ±àºÅ£º" << endl;
         for (int i = 0; i < 6; i++) {
             cout << i + 1 << ": " << choices[i] << endl;
         }
-        cout << "0: é€€å‡º" << endl;
+        cout << "0: ÍË³ö" << endl;
         cin >> s;
         system("cls");
-        switch (s) {
-        case 0:
-            goto Last;
-            break;
-        case 1:
-            part1_add(L);
-            break;
-        case 2:
-            part2_modify(L);
-            break;
-        case 3:
-            part3_findMax(L);
-            break;
-        case 4:
-            part4_insert(L);
-            break;
-        case 5:
-            part5_deleteBook(L);
-            break;
-        case 6:
-            part6_findSameBook(L);
-            break;
-        default:
-            break;
+        try {
+            switch (s) {
+            case 0:
+                goto Last;
+                break;
+            case 1:
+                part1_add(L);
+                break;
+            case 2:
+                part2_modify(L);
+                break;
+            case 3:
+                part3_findMax(L);
+                break;
+            case 4:
+                part4_insert(L);
+                break;
+            case 5:
+                part5_deleteBook(L);
+                break;
+            case 6:
+                part6_findSameBook(L);
+                break;
+            default:
+                break;
+            }
+        } catch (const char* e) {
+            cerr << e << endl;
         }
         system("pause");
         system("cls");
@@ -81,7 +85,7 @@ Last:
     return 0;
 }
 
-void inputBook(LinkList &a) {
+void inputBook(LinkList& a) {
     LinkList p = a;
     while (p->next != nullptr) {
         p = p->next;
@@ -95,7 +99,7 @@ void inputBook(LinkList &a) {
     }
 }
 
-void initList(LinkList &a) {
+void initList(LinkList& a) {
     a = new LNode;
     a->next = nullptr;
 }
@@ -109,51 +113,52 @@ int countNum(LinkList p) {
     return count;
 }
 
-void printDetail(LinkList &a) {
+void printDetail(LinkList& a) {
     if (!a && !a->next) {
-        cerr << "ç©ºè¡¨" << endl;
+        cerr << "¿Õ±í" << endl;
         return;
     }
     LinkList p = a->next;
     cout.setf(ios_base::fixed, ios_base::floatfield);
-    cout << setw(15) << setfill(' ') << left << "ä¹¦å·" << ' ' << setw(15) << setfill(' ') << "  ä¹¦å" << "     " << setw(5) << "ä»·æ ¼" << endl;
+    cout << setw(15) << setfill(' ') << left << "ÊéºÅ" << ' ' << setw(15) << setfill(' ') << "  ÊéÃû" << "     " << setw(5) << "¼Û¸ñ" << endl;
     while (p != nullptr) {
         cout << setw(15) << setfill(' ') << left << p->data.no << ' ' << setw(15) << setfill(' ') << p->data.name << " " << setw(5) << setprecision(2) << p->data.price << endl;
         p = p->next;
     }
 }
 
-void part1_add(LinkList &L) {
-    cout << "è¯·è¾“å…¥å›¾ä¹¦çš„ä¹¦å·ã€ä¹¦åå’Œä»·æ ¼ï¼Œè¾“å…¥0 0 0ç»“æŸè¾“å…¥" << endl;
+void part1_add(LinkList& L) {
+    cout << "ÇëÊäÈëÍ¼ÊéµÄÊéºÅ¡¢ÊéÃûºÍ¼Û¸ñ£¬ÊäÈë0 0 0½áÊøÊäÈë" << endl;
     inputBook(L);
     system("cls");
     int count = countNum(L);
-    cout << "å›¾ä¹¦æ€»æ•°ï¼š" << countNum(L) << endl;
+    cout << "Í¼Êé×ÜÊı£º" << countNum(L) << endl;
     printDetail(L);
 }
 
-void part2_modify(LinkList &L) {
+void part2_modify(LinkList& L) {
     cout.setf(ios_base::fixed, ios_base::floatfield);
-    cout << "å¹³å‡ä»·æ ¼ï¼š" << setprecision(2) << getAverage(L) << endl;
-    cout << "å›¾ä¹¦æ€»æ•°ï¼š" << countNum(L) << endl;
+    cout << "Æ½¾ù¼Û¸ñ£º" << setprecision(2) << getAverage(L) << endl;
+    cout << "Í¼Êé×ÜÊı£º" << countNum(L) << endl;
     modify(L);
     printDetail(L);
 }
 
-void modify(LinkList &L) {
+void modify(LinkList& L) {
     float average = getAverage(L);
     LinkList p = L->next;
     while (p != nullptr) {
         if (p->data.price < average) {
             p->data.price *= 1.2;
-        } else {
+        }
+        else {
             p->data.price *= 1.1;
         }
         p = p->next;
     }
 }
 
-float getAverage(LinkList &L) {
+float getAverage(LinkList& L) {
     float sum = 0;
     int count = countNum(L);
     LinkList p = L->next;
@@ -165,6 +170,10 @@ float getAverage(LinkList &L) {
 }
 
 void part3_findMax(LinkList L) {
+    if(!L) {
+        cout << "Ã»ÓĞÊı¾İ£¡" << endl;
+        throw "No data";
+    }
     LinkList p = L->next;
     int count = 0;
     float maxNum = p->data.price;
@@ -172,13 +181,14 @@ void part3_findMax(LinkList L) {
         if (maxNum < p->data.price) {
             maxNum = p->data.price;
             count = 1;
-        } else if (maxNum == p->data.price) {
+        }
+        else if (maxNum == p->data.price) {
             count++;
         }
         p = p->next;
     }
-    cout << "æœ€è´µå›¾ä¹¦å…±" << count << "æœ¬" << endl;
-    cout << setw(15) << setfill(' ') << left << "ä¹¦å·" << ' ' << setw(15) << setfill(' ') << "  ä¹¦å" << "     " << setw(5) << "ä»·æ ¼" << endl;
+    cout << "×î¹óÍ¼Êé¹²" << count << "±¾" << endl;
+    cout << setw(15) << setfill(' ') << left << "ÊéºÅ" << ' ' << setw(15) << setfill(' ') << "  ÊéÃû" << "     " << setw(5) << "¼Û¸ñ" << endl;
 
     p = L->next;
     while (p != nullptr) {
@@ -191,16 +201,20 @@ void part3_findMax(LinkList L) {
 
 void part4_insert(LinkList L) {
     insertBook(L);
-    cout << "å›¾ä¹¦æ€»æ•°ï¼š" << countNum(L) << endl;
+    cout << "Í¼Êé×ÜÊı£º" << countNum(L) << endl;
     printDetail(L);
 }
 
-void insertBook(LinkList &L) {
+void insertBook(LinkList& L) {
+    if (!L) {
+        cout << "Ã»ÓĞÊı¾İ£¡" << endl;
+        throw "No data";
+    }
     int insertPlace;
-    cout << "è¯·è¾“å…¥æ’å…¥å›¾ä¹¦çš„ä½ç½®ï¼š" << endl;
+    cout << "ÇëÊäÈë²åÈëÍ¼ÊéµÄÎ»ÖÃ£º" << endl;
     cin >> insertPlace;
     Book newBook;
-    cout << "è¯·è¾“å…¥æ’å…¥å›¾ä¹¦çš„ä¹¦å·ã€ä¹¦åå’Œä»·æ ¼" << endl;
+    cout << "ÇëÊäÈë²åÈëÍ¼ÊéµÄÊéºÅ¡¢ÊéÃûºÍ¼Û¸ñ" << endl;
     cin >> newBook.no >> newBook.name >> newBook.price;
     LinkList p = L;
     int i = 1;
@@ -209,9 +223,10 @@ void insertBook(LinkList &L) {
         i++;
     }
     if (p == nullptr || insertPlace <= 0) {
-        cout << "æŠ±æ­‰ï¼Œå…¥åº“ä½ç½®éæ³•!" << endl;
+        cout << "±§Ç¸£¬Èë¿âÎ»ÖÃ·Ç·¨!" << endl;
         exit(EXIT_FAILURE);
-    } else {
+    }
+    else {
         LinkList newElem = new LNode;
         newElem->data = newBook;
         newElem->next = p->next;
@@ -219,22 +234,30 @@ void insertBook(LinkList &L) {
     }
 }
 
-void part5_deleteBook(LinkList &L) {
+void part5_deleteBook(LinkList& L) {
+    if (!L) {
+        cout << "Ã»ÓĞÊı¾İ£¡" << endl;
+        throw "No data";
+    }
     int deletePlace;
-    cout << "è¯·è¾“å…¥åˆ é™¤å›¾ä¹¦çš„ä½ç½®ï¼š" << endl;
+    cout << "ÇëÊäÈëÉ¾³ıÍ¼ÊéµÄÎ»ÖÃ£º" << endl;
     cin >> deletePlace;
     deleteBook(L, deletePlace);
-    cout << "å›¾ä¹¦æ€»æ•°ï¼š" << countNum(L) << endl;
+    cout << "Í¼Êé×ÜÊı£º" << countNum(L) << endl;
     printDetail(L);
 }
 
-void part6_findSameBook(LinkList &L) {
+void part6_findSameBook(LinkList& L) {
     findSameBook(L);
-    cout << "å›¾ä¹¦æ€»æ•°ï¼š" << countNum(L) << endl;
+    cout << "Í¼Êé×ÜÊı£º" << countNum(L) << endl;
     printDetail(L);
 }
 
-void findSameBook(LinkList &L) {
+void findSameBook(LinkList& L) {
+    if (!L) {
+        cout << "Ã»ÓĞÊı¾İ£¡" << endl;
+        throw "No data";
+    }
     LinkList p = L;
     while (p != nullptr && p->next) {
         auto q = p;
@@ -243,7 +266,8 @@ void findSameBook(LinkList &L) {
                 LinkList t = q->next;
                 q->next = t->next;
                 delete t;
-            } else {
+            }
+            else {
                 q = q->next;
             }
         }
@@ -251,9 +275,13 @@ void findSameBook(LinkList &L) {
     }
 }
 
-void deleteBook(LinkList &L, int position) {
+void deleteBook(LinkList& L, int position) {
+    if (!L) {
+        cout << "Ã»ÓĞÊı¾İ£¡" << endl;
+        throw "No data";
+    }
     if (L == nullptr || position < 1) {
-        cout << "æŠ±æ­‰ï¼Œåˆ é™¤ä½ç½®éæ³•!" << endl;
+        cout << "±§Ç¸£¬É¾³ıÎ»ÖÃ·Ç·¨!" << endl;
         exit(EXIT_FAILURE);
     }
 
@@ -270,7 +298,7 @@ void deleteBook(LinkList &L, int position) {
     }
 
     if (p->next == nullptr) {
-        cout << "æŠ±æ­‰ï¼Œåˆ é™¤ä½ç½®éæ³•!" << endl;
+        cout << "±§Ç¸£¬É¾³ıÎ»ÖÃ·Ç·¨!" << endl;
         exit(EXIT_FAILURE);
     }
 

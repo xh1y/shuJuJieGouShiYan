@@ -1,44 +1,52 @@
 #include <iostream>
-#include <fstream>
 #include <iomanip>
 #include <string>
+#include <vector>
 
 using namespace std;
 
 int kmp(string s, string t, int pos, int next[]);
 void getNext(string t, int next[]);
 
+typedef struct virusAndPerson {
+    string virus;
+    string person;
+} vap;
+
+typedef vector<vap> vec_vap;
+
 int main() {
-    ifstream inFile("input.txt");
-    ofstream outFile("output.txt");
     int num;
     string virus, person;
-    inFile >> num;
-    outFile << std::left << setfill(' ') << setw(10) << "Virus" << setw(20) << "Person" << '\t' << "Effected" << endl;
-    while (num--) {
-        inFile >> virus;
-        inFile >> person;
+    vec_vap v;
+    while (cin >> virus >> person && virus.compare("0") != 0 && person.compare("0") != 0) {
+        vap a;
+        a.virus = virus;
+        a.person = person;
+        v.push_back(a);
+    }
 
-        string vir = virus;
+    for (int i = 0; i < v.size(); i++) {
+        string vir = v[i].virus;
         bool flag = false;
-        int virLen = virus.length();
-        virus += virus;
+        int virLen = v[i].virus.length();
+        v[i].virus += v[i].virus;
         string temp;
-        for (int i = 0; i < virLen; i++) {
-            temp = virus.substr(i, virLen);
+        for (int j = 0; j < virLen; j++) {
+            temp = v[i].virus.substr(j, virLen);
             int* next = new int[temp.length() + 1];
             getNext(temp, next);
-            flag = kmp(person, temp, 0, next) != -1;
+            flag = kmp(v[i].person, temp, 0, next) != -1;
             delete[] next;
             if (flag) {
                 break;
             }
         }
         if (flag) {
-            outFile << left << setfill(' ') << setw(10) << vir << setw(20) << person << "\t" << "Yes" << endl;
+            cout << left << "Yes" << endl;
         }
         else {
-            outFile << left << setfill(' ') << setw(10) << vir << setw(20) << person << "\t" << "No" << endl;
+            cout << left << "No" << endl;
         }
     }
     return 0;

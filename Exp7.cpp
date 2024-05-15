@@ -109,9 +109,6 @@ void useBFS(vec_vec_bool graph, int start, int total) {
             break;
     }
     double res = (count * 1.0) / total;
-    // printf("%d: %.2f%%", start, res * 100);
     cout.setf(ios_base::fixed, ios_base::floatfield);
     cout << start + 1 << ": " << setprecision(2) << res * 100 << "%" << endl;
-    // if (start != total)
-    //     cout << endl;
 }
