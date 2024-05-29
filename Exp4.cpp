@@ -38,7 +38,7 @@ int main() {
     }
 
     for (int j = 0; j < Strings.size(); j++) {
-        vector<WordAndWeight> waw;
+        vec_waw waw;
         int *weightOfEveryCharacter = new int[26];
         for (int i = 0; i < 26; i++) {
             weightOfEveryCharacter[i] = 0;
@@ -197,27 +197,9 @@ void huffmanChangeToCode(HuffmanTree huffmanTree, int nowRoot) {
 
 
 void huffmanDecode(string code,  HuffmanTree huffmanTree, int size) {
-    // string before = code;
-    // vec_waw copy = waw;
-    // for (int i = 1; i < waw.size() - 1; i++) {
-    //     for (int j = i + 1; j < waw.size(); j++) {
-    //         if ((waw[i].codes.compare(waw[j].codes) > 0)) {
-    //             WordAndWeight temp;
-    //             temp = waw[i];
-    //             waw[i] = waw[j];
-    //             waw[j] = temp;
-    //         }
-    //     }
-    // }
-
-    // for(int i = 0; i < code.length(); i++) {
-    //     for() 
-    // }
-    // cout << before << endl;
     int i = 1;
     int startPlace = 0;
     while (i < code.length()) {
-        // cout << waw[i].codes << ": " << waw[i].data << endl;
         while (!getValue(code.substr(startPlace, i - startPlace), huffmanTree, size)) {
             i++;
         }
@@ -227,8 +209,6 @@ void huffmanDecode(string code,  HuffmanTree huffmanTree, int size) {
 }
 
 bool getValue(string code, HuffmanTree huffmanTree, int size) {
-    // const auto root = huffmanTree[size];
-    // HTNode &p = root;
     HuffmanTree s = new HTNode;
     s = &huffmanTree[size];
     for (int i = 0; i < code.length(); i++) {

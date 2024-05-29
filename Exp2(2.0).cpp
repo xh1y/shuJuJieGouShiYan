@@ -10,7 +10,7 @@ typedef enum { smaller = -1, same, bigger } compare;
 
 compare compareSign(char op1, char op2);
 bool isLegalOperator(char c);
-int GetValue(char thetha, int a, int b);
+int getValue(char thetha, int a, int b);
 void discardIllegalCharacter(string& s);
 int getValueFromStack(stack<int> s);
 
@@ -65,7 +65,7 @@ int main() {
                     //     cout << e;
                     // }
                     // Push(numbers, calculate(a, op, b));
-                    numbers.push(GetValue(op, a, b));
+                    numbers.push(getValue(op, a, b));
                     break;
                 case same:
                     // x = Pop(optr);
@@ -99,7 +99,7 @@ bool isLegalOperator(char c) {
     return c == '+' or c == '-' or c == '*' or c == '/' or c == '=' or c == '(' or c == ')';
 }
 
-int GetValue(char thetha, int a, int b) {
+int getValue(char thetha, int a, int b) {
     switch (thetha) {
     case '+':
         return a + b;

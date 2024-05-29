@@ -45,18 +45,7 @@ int main() {
 
     for (int question = 0; question < groups.size(); question++) {
         vec_vec_bool graph(groups[question].peopleNum, vec_bool(groups[question].peopleNum, false));
-        // for (int i = 0; i < groups[question].peopleNum; i++) {
-        //     for (int j = 0; j < groups[question].peopleNum; j++) {
-        //         graph[i][j] = false;
-        //     }
-        // }
         getGraph(graph, groups[question]);
-        // for (int i = 0; i < graph.size(); i++) {
-        //     for (int j = 0; j < graph[i].size(); j++) {
-        //         cout << setw(3) << graph[i][j] << " ";
-        //     }
-        //     cout << endl;
-        // }
         for (int i = 0; i < graph.size(); i++) {
             useBFS(graph, i, graph.size());
         }

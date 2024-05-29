@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <cctype>
+#include <cmath>
 #include <stack>
 
 using namespace std;
@@ -9,7 +10,7 @@ using namespace std;
 typedef enum { smaller = -1, same, bigger } compare;
 
 typedef struct BinaryTreeNode {
-    char data;
+    int data;
     struct BinaryTreeNode *lchild, *rchild;
 } BinaryTreeNode, *BinaryTree;
 compare compareSign(char op1, char op2);
@@ -18,7 +19,8 @@ bool isLegalOperator(char c);
 void CreateExpTree(BinaryTree &binaryTree, BinaryTree leftChild, BinaryTree rightChild, char rootData);
 int EvaluateExpTree(BinaryTree binaryTree);
 void discardIllegalCharacter(string &s);
-int GetValue(char thetha, int a, int b);
+int getValue(char thetha, int a, int b);
+int getValueFromStack(stack<int> s);
 int main() {
     string s = "";
     vector<string> Strings;
@@ -57,8 +59,14 @@ int InitExpTree(string expression) {
     bool findEqual = false;
     for (int i = 0; i < expression.length(); i++) {
         if (isdigit(expression[i])) {
-            CreateExpTree(binaryTree, nullptr, nullptr, expression[i]);
+            stack<int> numbers;
+            while(isdigit(expression[i])) {
+                numbers.push(expression[i]);
+                i++;
+            }
+            CreateExpTree(binaryTree, nullptr, nullptr, getValueFromStack(numbers));
             expt.push(binaryTree);
+            i--;
         } else if (!isLegalOperator(expression[i])) {
             throw "Illegal expression!";
         } else {
@@ -75,14 +83,13 @@ int InitExpTree(string expression) {
                 }
                 operatorPop = optr.top();
                 treePop2 = expt.top();
-                
                 optr.pop();
                 expt.pop();
-                
                 treePop1 = expt.top();
                 expt.pop();
                 CreateExpTree(binaryTree, treePop1, treePop2, operatorPop);
-                expt.push(binaryTree);i--;
+                expt.push(binaryTree);
+                i--;
                 break;
             case same:
                 optr.pop();
@@ -93,6 +100,9 @@ int InitExpTree(string expression) {
         }
     }
 Judge:
+    if(expt.size() == 0) {
+        throw "Empty expression";
+    }
     binaryTree = expt.top();
     expt.pop();
     if (!expt.empty() or !optr.empty()) {
@@ -126,18 +136,18 @@ void CreateExpTree(BinaryTree &binaryTree, BinaryTree leftChild, BinaryTree righ
 int EvaluateExpTree(BinaryTree binaryTree) {
     int leftValue = 0, rightValue = 0;
     if (binaryTree->lchild == nullptr && binaryTree->rchild == nullptr)
-        return binaryTree->data - '0';
+        return binaryTree->data;
     else {
         leftValue = EvaluateExpTree(binaryTree->lchild);
         rightValue = EvaluateExpTree(binaryTree->rchild);
         int val = 0;
-        val = GetValue(binaryTree->data, leftValue, rightValue);
+        val = getValue(binaryTree->data, leftValue, rightValue);
         return val;
     }
 }
 
-int GetValue(char op, int a, int b) {
-    switch (op) {
+int getValue(char thetha, int a, int b) {
+    switch (thetha) {
     case '+':
         return a + b;
         break;
@@ -152,7 +162,7 @@ int GetValue(char op, int a, int b) {
             // return 0;
             throw "Divisor can't be 0!";
         }
-        return int(a / b);
+        return round(static_cast<double>(a) / static_cast<double>(b));
         break;
     default:
         return 0;
@@ -161,10 +171,26 @@ int GetValue(char op, int a, int b) {
 
 void discardIllegalCharacter(string &s) {
     string t = "";
+    int count = 0;
     for(string::iterator i = s.begin(); i <= s.end(); i++) {
         if(!isspace(*i) and (isLegalOperator(*i) or isdigit(*i))) {
             t.push_back(*i);
+            count++;
         }
     }
-    s = t;
+    if(count != 0)
+        s = t;
+}
+
+int getValueFromStack(stack<int> s) {
+    int num = 0;
+    int mul = 1;
+    stack<int> sl = s;
+    while (!s.empty()) {
+        num += (s.top() - 48) * mul;
+        s.pop();
+        mul *= 10;
+    }
+    
+    return num;
 }

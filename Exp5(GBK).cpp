@@ -18,11 +18,11 @@ bool isLegalOperator(char c);
 void CreateExpTree(BinaryTree& binaryTree, BinaryTree leftChild, BinaryTree rightChild, char rootData);
 int EvaluateExpTree(BinaryTree binaryTree);
 void discardIllegalCharacter(string& s);
-int GetValue(char thetha, int a, int b);
+int getValue(char thetha, int a, int b);
 int main() {
     string s = "";
     vector<string> Strings;
-    cout << "ÇëÊäÈëÒª¼ÆËãµÄ±í´ïÊ½(ÒÔ=½áÊø,ÍË³öÊäÈëÇëÔÚ×îºóÒ»ÐÐÊäÈëÒ»¸ö=): " << endl;
+    cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Ê½(ï¿½ï¿½=ï¿½ï¿½ï¿½ï¿½,ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½=): " << endl;
     while (getline(cin, s) && s != "=") {
         discardIllegalCharacter(s);
         Strings.push_back(s);
@@ -138,12 +138,12 @@ int EvaluateExpTree(BinaryTree binaryTree) {
         leftValue = EvaluateExpTree(binaryTree->lchild);
         rightValue = EvaluateExpTree(binaryTree->rchild);
         int val = 0;
-        val = GetValue(binaryTree->data, leftValue, rightValue);
+        val = getValue(binaryTree->data, leftValue, rightValue);
         return val;
     }
 }
 
-int GetValue(char thetha, int a, int b) {
+int getValue(char thetha, int a, int b) {
     switch (thetha) {
     case '+':
         return a + b;

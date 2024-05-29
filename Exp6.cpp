@@ -15,25 +15,25 @@ typedef struct citiesAndRoads {
     int distance;
 } citiesAndRoads;
 
-typedef struct oneAnswer {
+typedef struct group {
     int cityNum, roadNum;
     vector<string> citiesName;
     vector<citiesAndRoads> roads;
     string startCity, endCity;
-} oneAnswer;
+} group;
 
-typedef vector<int> vec_bool;
-typedef vector<vec_bool> vec_vec_int;
-typedef vector<oneAnswer> vec_oa;
+typedef vector<int> vec_int;
+typedef vector<vec_int> vec_vec_int;
+typedef vector<group> vec_gp;
 
-vec_vec_int createGraph(oneAnswer oa);
-void Dijkstra(vec_vec_int graph, oneAnswer oa, int start, int end);
-int findCityNum(oneAnswer oa, string city);
+vec_vec_int createGraph(group oa);
+void Dijkstra(vec_vec_int graph, group oa, int start, int end);
+int findCityNum(group oa, string city);
 int main() {
-    vec_oa answers;
+    vec_gp answers;
     int cityNum, roadNum;
     while (cin >> cityNum >> roadNum and not (cityNum == 0 and roadNum == 0)) {
-        auto answer = new oneAnswer;
+        auto answer = new group;
         answer->cityNum = cityNum;
         answer->roadNum = roadNum;
         for (int i = 0; i < cityNum; i++) {
@@ -67,7 +67,7 @@ int main() {
     return 0;
 }
 
-vec_vec_int createGraph(oneAnswer oa) {
+vec_vec_int createGraph(group oa) {
     vec_vec_int graph(oa.cityNum, vector<int>(oa.cityNum, inf));
     for (int i = 0; i < oa.roads.size(); i++) {
         bool s_f = false, e_f = false;
@@ -91,7 +91,7 @@ vec_vec_int createGraph(oneAnswer oa) {
     return graph;
 }
 
-void Dijkstra(vec_vec_int graph, oneAnswer oa, int start, int end) {
+void Dijkstra(vec_vec_int graph, group oa, int start, int end) {
     int size = oa.cityNum;
     bool *s = new bool[size];
     int *d = new int[size];
@@ -125,9 +125,6 @@ void Dijkstra(vec_vec_int graph, oneAnswer oa, int start, int end) {
         }
     }
     cout << "最短距离：" << d[end] << endl;
-    // for (int i = 0; i < size; i++) {
-    //     cout << path[i] << " ";
-    // }
     int now = end;
     stack<int> pathStack;
     cout << "最短路线：" << oa.citiesName[start] << "->";
@@ -143,9 +140,13 @@ void Dijkstra(vec_vec_int graph, oneAnswer oa, int start, int end) {
         pathStack.pop();
     }
     cout << endl;
+
+    delete[] s;
+    delete[] d;
+    delete[] path;
 }
 
-int findCityNum(oneAnswer oa, string city) {
+int findCityNum(group oa, string city) {
     bool find = false;
     for (int i = 0; i < oa.cityNum; i++) {
         if (city.compare(oa.citiesName[i]) == 0) {
