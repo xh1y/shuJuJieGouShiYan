@@ -105,3 +105,4 @@ A F
 1. xxx(GBK).cpp是GBK编码（dev-c++请使用这个），其他为UTF-8编码
 2. Exp3.cpp是用文件操作输入输出，Exp3NewVersion.cpp和指导书相同，输入为input.txt, 输出为output.txt
 3. Exp2(2.0).cpp 支持多位数加减乘除，Exp2.cpp只能一位数
+4. Exp5.cpp 支持多位数加减乘除
