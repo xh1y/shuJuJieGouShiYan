@@ -13,10 +13,10 @@ typedef struct BinaryTreeNode {
     struct BinaryTreeNode* lchild, * rchild;
 } BinaryTreeNode, * BinaryTree;
 compare compareSign(char op1, char op2);
-int InitExpTree(string expression);
+int initExpTree(string expression);
 bool isLegalOperator(char c);
-void CreateExpTree(BinaryTree& binaryTree, BinaryTree leftChild, BinaryTree rightChild, char rootData);
-int EvaluateExpTree(BinaryTree binaryTree);
+void createExpTree(BinaryTree& binaryTree, BinaryTree leftChild, BinaryTree rightChild, char rootData);
+int evaluateExpTree(BinaryTree binaryTree);
 void discardIllegalCharacter(string& s);
 int getValue(char thetha, int a, int b);
 int main() {
@@ -31,7 +31,7 @@ int main() {
         int val;
         bool err = false;
         try {
-            val = InitExpTree(Strings[i]);
+            val = initExpTree(Strings[i]);
         }
         catch (char const* error) {
             cout << "Error: " << error << endl;
@@ -49,7 +49,7 @@ int main() {
     return 0;
 }
 
-int InitExpTree(string expression) {
+int initExpTree(string expression) {
     stack<BinaryTree> expt;
     stack<char> optr;
     optr.push('=');
@@ -59,7 +59,7 @@ int InitExpTree(string expression) {
     bool findEqual = false;
     for (int i = 0; i < expression.length(); i++) {
         if (isdigit(expression[i])) {
-            CreateExpTree(binaryTree, nullptr, nullptr, expression[i]);
+            createExpTree(binaryTree, nullptr, nullptr, expression[i]);
             expt.push(binaryTree);
         }
         else if (!isLegalOperator(expression[i])) {
@@ -85,7 +85,7 @@ int InitExpTree(string expression) {
 
                 treePop1 = expt.top();
                 expt.pop();
-                CreateExpTree(binaryTree, treePop1, treePop2, operatorPop);
+                createExpTree(binaryTree, treePop1, treePop2, operatorPop);
                 expt.push(binaryTree);i--;
                 break;
             case same:
@@ -103,7 +103,7 @@ Judge:
         throw "Illegal expression!";
     }
     else {
-        return EvaluateExpTree(binaryTree);
+        return evaluateExpTree(binaryTree);
     }
 }
 
@@ -123,20 +123,20 @@ bool isLegalOperator(char c) {
     return c == '+' or c == '-' or c == '*' or c == '/' or c == '=' or c == '(' or c == ')';
 }
 
-void CreateExpTree(BinaryTree& binaryTree, BinaryTree leftChild, BinaryTree rightChild, char rootData) {
+void createExpTree(BinaryTree& binaryTree, BinaryTree leftChild, BinaryTree rightChild, char rootData) {
     binaryTree = new BinaryTreeNode;
     binaryTree->data = rootData;
     binaryTree->lchild = leftChild;
     binaryTree->rchild = rightChild;
 }
 
-int EvaluateExpTree(BinaryTree binaryTree) {
+int evaluateExpTree(BinaryTree binaryTree) {
     int leftValue = 0, rightValue = 0;
     if (binaryTree->lchild == nullptr && binaryTree->rchild == nullptr)
         return binaryTree->data - '0';
     else {
-        leftValue = EvaluateExpTree(binaryTree->lchild);
-        rightValue = EvaluateExpTree(binaryTree->rchild);
+        leftValue = evaluateExpTree(binaryTree->lchild);
+        rightValue = evaluateExpTree(binaryTree->rchild);
         int val = 0;
         val = getValue(binaryTree->data, leftValue, rightValue);
         return val;

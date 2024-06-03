@@ -39,13 +39,13 @@ int main() {
         a.score = score;
         students.push_back(a);
     }
-    cout << "Please choose the way to sort:" << endl;
-    cout << "1. Straight insertion sort" << endl;
-    cout << "2. Binary insertion sort" << endl;
-    cout << "3. Shell's sort" << endl
-        << "4. Bubble sort" << endl
-        << "5. Quick sort" << endl
-        << "6. Selection sort" << endl;
+    cout << "请选择排序算法：" << endl <<
+        "1. 直接插入排序" << endl <<
+        "2. 折半插入排序" << endl <<
+        "3. 希尔排序" << endl <<
+        "4. 冒泡排序" << endl <<
+        "5. 快速排序" << endl <<
+        "6. 选择排序" << endl;
     int choice;
     cin >> choice;
     switch (choice) {
@@ -71,9 +71,6 @@ int main() {
         cout << "No valid input.";
         return 0;
 
-    }
-    for (int i = 1; i < students.size(); i++) {
-        cout << i << " " << students[i] << endl;
     }
     getLevel(students);
     return 0;

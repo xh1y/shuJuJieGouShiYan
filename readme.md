@@ -1,13 +1,18 @@
 ## 各题测试用例
+
 ### 3
-输入版本的测试用例:  
-```plain text
+
+输入版本的测试用例:
+
+```plain
 abbab abbabaab  
 baa cacdveabacsd  
 abe def  
 0 0  
 ```
-文件版本的测试用例:  
+
+文件版本的测试用例:
+
 ```text
 15
 baa bbaabbba 
@@ -26,7 +31,9 @@ abbab abbabaab
 baa cacdveabacsd
 abe def
 ```
+
 ### 4
+
 ```txt
 aaaaaaabbbbbccdddd
 aabccc
@@ -34,6 +41,7 @@ aabccc
 ```
 
 ### 6
+
 ```
 3 3
 A B C
@@ -56,6 +64,7 @@ A F
 ```
 
 ### 7
+
 ```txt
 10 9
 1 2
@@ -78,7 +87,21 @@ A F
 9 10
 0 0
 ```
+
+### 8
+
+```plaintext
+张三 80.00
+李四 96.00
+王五 90.00
+郑六 78.00
+田七 85.00
+李明 90.00
+0 0
+```
+
 ## 其他
+
 1. xxx(GBK).cpp是GBK编码（dev-c++请使用这个），其他为UTF-8编码
-2. Exp3.cpp是用文件操作输入输出，Exp3NewVersion.cpp和指导书相同，输入为input.txt, 输出为output.txt  
+2. Exp3.cpp是用文件操作输入输出，Exp3NewVersion.cpp和指导书相同，输入为input.txt, 输出为output.txt
 3. Exp2(2.0).cpp 支持多位数加减乘除，Exp2.cpp只能一位数
