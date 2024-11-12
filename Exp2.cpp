@@ -12,7 +12,7 @@ typedef struct StackNode {
     struct StackNode *next;
 } StackNode, *LinkStack;
 typedef enum compare { smaller = -1, same, bigger } compare;
-void InitStack(LinkStack &S);
+void InitStack(LinkStack S);
 bool StackEmpty(LinkStack S);
 void Push(LinkStack &S, SElemType e);
 SElemType Pop(LinkStack &S);
@@ -65,7 +65,7 @@ int main() {
     return 0;
 }
 
-void InitStack(LinkStack &S) {
+void InitStack(LinkStack S) {
     S = nullptr;
 }
 
@@ -100,6 +100,7 @@ SElemType GetTop(LinkStack &S) {
         return '\0';
     return S->data;
 }
+
 bool isSign(char ch) {
     for (int i = 0; i < 7; i++) {
         if (ch == oper[i]) {
@@ -108,6 +109,7 @@ bool isSign(char ch) {
     }
     return false;
 }
+
 compare compareSign(char op1, char op2) {
     if ((op1 == '(' && op2 == ')') || (op1 == '=' && op2 == '=')) {
         return same;

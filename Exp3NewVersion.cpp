@@ -19,24 +19,24 @@ int main() {
     int num;
     string virus, person;
     vec_vap v;
-    while (cin >> virus >> person && virus.compare("0") != 0 && person.compare("0") != 0) {
+    while (cin >> virus >> person && virus != "0" && person != "0") {
         vap a;
         a.virus = virus;
         a.person = person;
         v.push_back(a);
     }
 
-    for (int i = 0; i < v.size(); i++) {
-        string vir = v[i].virus;
+    for (auto & i : v) {
+        string vir = i.virus;
         bool flag = false;
-        int virLen = v[i].virus.length();
-        v[i].virus += v[i].virus;
+        int virLen = i.virus.length();
+        i.virus += i.virus;
         string temp;
         for (int j = 0; j < virLen; j++) {
-            temp = v[i].virus.substr(j, virLen);
+            temp = i.virus.substr(j, virLen);
             int* next = new int[temp.length() + 1];
             getNext(temp, next);
-            flag = kmp(v[i].person, temp, 0, next) != -1;
+            flag = kmp(i.person, temp, 0, next) != -1;
             delete[] next;
             if (flag) {
                 break;
@@ -55,8 +55,8 @@ int main() {
 int kmp(string s, string t, int pos, int next[]) {
     int i = pos;
     int j = 0;
-    int sl = s.length();
-    int tl = t.length();
+    const int sl = s.length();
+    const int tl = t.length();
     while (i < sl && j < tl) {
         if (j == -1 || s[i] == t[j]) {
             i++;

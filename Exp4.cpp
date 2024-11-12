@@ -3,33 +3,30 @@
 #include <cctype>
 #include <vector>
 using namespace std;
+
 typedef struct WordAndWeight {
     char data;
     int weight;
     string codes;
-} WordAndWeight; 
+} WordAndWeight;
 
 typedef struct {
-    // char data;
-    // int weight;
     WordAndWeight wordAndWeight;
     int parent;
     int rchild;
     int lchild;
-    // string decode;
-}HTNode, *HuffmanTree;
+} HTNode, *HuffmanTree;
 
 
 typedef vector<WordAndWeight> vec_waw;
-// string subreplace(string resource_str, string sub_str, string new_str);
-void CreateHuffmanTree(HuffmanTree &huffmanTree, int n, vec_waw waw);
-void Select(HuffmanTree &HuffmanTree, int n, int &s1, int &s2);
+void CreateHuffmanTree(HuffmanTree& huffmanTree, int n, vec_waw waw);
+void Select(const HuffmanTree& HuffmanTree, int n, int& s1, int& s2);
 void calculateStringWeight(string s, int weightOfEveryCharacter[], int n);
 void huffmanChangeToCode(HuffmanTree huffmanTree, int nowRoot);
-// void huffmanDecode(string code, vec_waw waw);
 bool equal0(string a);
 void huffmanDecode(string code, HuffmanTree huffmanTree, int size);
 bool getValue(string code, HuffmanTree huffmanTree, int size);
+
 int main() {
     vector<string> Strings;
     string s;
@@ -37,18 +34,18 @@ int main() {
         Strings.push_back(s);
     }
 
-    for (int j = 0; j < Strings.size(); j++) {
+    for (auto & String : Strings) {
         vec_waw waw;
-        int *weightOfEveryCharacter = new int[26];
+        int* weightOfEveryCharacter = new int[26];
         for (int i = 0; i < 26; i++) {
             weightOfEveryCharacter[i] = 0;
         }
 
-        calculateStringWeight(Strings[j], weightOfEveryCharacter, Strings[j].length());
+        calculateStringWeight(String, weightOfEveryCharacter, String.length());
         for (char i = 0; i < 26; i++) {
             if (weightOfEveryCharacter[i] != 0) {
-                cout << (char) (i + 'a') << ":" << weightOfEveryCharacter[i] << " ";
-                WordAndWeight p = { (char) ((char) i + 'a'), weightOfEveryCharacter[i] };
+                cout << (char)(i + 'a') << ":" << weightOfEveryCharacter[i] << " ";
+                WordAndWeight p = {(char)(i + 'a'), weightOfEveryCharacter[i]};
                 waw.push_back(p);
             }
         }
@@ -56,7 +53,9 @@ int main() {
         HuffmanTree huffmanTree = new HTNode[waw.size() * 2];
         CreateHuffmanTree(huffmanTree, waw.size(), waw);
         for (int i = 1; i <= 2 * waw.size() - 1; i++) {
-            cout << i << " " << huffmanTree[i].wordAndWeight.weight << " " << huffmanTree[i].parent << " " << huffmanTree[i].lchild << " " << huffmanTree[i].rchild << " " << huffmanTree[i].wordAndWeight.data << endl;
+            cout << i << " " << huffmanTree[i].wordAndWeight.weight << " " << huffmanTree[i].parent << " " <<
+                huffmanTree[i].lchild << " " << huffmanTree[i].rchild << " " << huffmanTree[i].wordAndWeight.data <<
+                endl;
         }
         huffmanChangeToCode(huffmanTree, 2 * waw.size() - 1);
         for (int i = 1; i <= waw.size(); i++) {
@@ -68,16 +67,16 @@ int main() {
         for (int i = 0; i <= size; i++) {
             waw.push_back(huffmanTree[i].wordAndWeight);
         }
-        for (int i = 0; i < Strings[j].length(); i++) {
+        for (int i = 0; i < String.length(); i++) {
             for (int l = 0; l < waw.size(); l++) {
-                if (Strings[j][i] == waw[l].data) {
+                if (String[i] == waw[l].data) {
                     newS += waw[l].codes;
                 }
             }
         }
 
         cout << endl << newS << endl;
-        huffmanDecode(newS,  huffmanTree, size * 2 - 1);
+        huffmanDecode(newS, huffmanTree, size * 2 - 1);
         cout << endl;
         delete[] huffmanTree;
         delete[] weightOfEveryCharacter;
@@ -85,7 +84,7 @@ int main() {
     return 0;
 }
 
-void CreateHuffmanTree(HuffmanTree &huffmanTree, int n, vec_waw waw) {
+void CreateHuffmanTree(HuffmanTree& huffmanTree, int n, vec_waw waw) {
     if (n <= 1) {
         return;
     }
@@ -104,12 +103,13 @@ void CreateHuffmanTree(HuffmanTree &huffmanTree, int n, vec_waw waw) {
         huffmanTree[s2].parent = i;
         huffmanTree[i].lchild = s1;
         huffmanTree[i].rchild = s2;
-        huffmanTree[i].wordAndWeight.weight = huffmanTree[s1].wordAndWeight.weight + huffmanTree[s2].wordAndWeight.weight;
+        huffmanTree[i].wordAndWeight.weight = huffmanTree[s1].wordAndWeight.weight + huffmanTree[s2].wordAndWeight.
+            weight;
     }
 }
 
-void Select(HuffmanTree &huffmanTree, int n, int &s1, int &s2) {
-    int smallest = 1, _2ndsmall;
+void Select(const HuffmanTree& huffmanTree, int n, int& s1, int& s2) {
+    int smallest = 1;
     for (int i = 1; i <= n; ++i) {
         if (huffmanTree[i].parent == 0) {
             smallest = i;
@@ -118,30 +118,34 @@ void Select(HuffmanTree &huffmanTree, int n, int &s1, int &s2) {
     }
     for (int i = 2; i <= n; i++) {
         if (huffmanTree[i].parent == 0) {
-            smallest = (huffmanTree[i].wordAndWeight.weight > huffmanTree[smallest].wordAndWeight.weight) ? smallest : i;
+            smallest = (huffmanTree[i].wordAndWeight.weight > huffmanTree[smallest].wordAndWeight.weight)
+                           ? smallest
+                           : i;
         }
     }
-    _2ndsmall = -1;
+    int _secondSmall = -1;
     for (int i = 1; i <= n; ++i) {
         if (huffmanTree[i].parent == 0 && i != smallest) {
-            _2ndsmall = i;
+            _secondSmall = i;
             break;
         }
     }
     for (int i = 2; i <= n; ++i) {
         if (huffmanTree[i].parent == 0 && i != smallest) {
-            _2ndsmall = (huffmanTree[i].wordAndWeight.weight > huffmanTree[_2ndsmall].wordAndWeight.weight) ? _2ndsmall : i;
+            _secondSmall = (huffmanTree[i].wordAndWeight.weight > huffmanTree[_secondSmall].wordAndWeight.weight)
+                            ? _secondSmall
+                            : i;
         }
     }
-    if (huffmanTree[_2ndsmall].wordAndWeight.weight == huffmanTree[smallest].wordAndWeight.weight) {
-        if(smallest > _2ndsmall) {
-            int temp = _2ndsmall;
-            _2ndsmall = smallest;
+    if (huffmanTree[_secondSmall].wordAndWeight.weight == huffmanTree[smallest].wordAndWeight.weight) {
+        if (smallest > _secondSmall) {
+            int temp = _secondSmall;
+            _secondSmall = smallest;
             smallest = temp;
         }
     }
     s1 = smallest;
-    s2 = _2ndsmall;
+    s2 = _secondSmall;
 }
 
 void calculateStringWeight(string s, int weightOfEveryCharacter[], int n) {
@@ -159,7 +163,7 @@ bool equal0(string a) {
             newString.push_back(*i);
         }
     }
-    return newString.compare(z) == 0;
+    return newString == z;
 }
 
 void HuffmanDeCode(HuffmanTree HT, char s[], char a[], int n) {
@@ -195,8 +199,7 @@ void huffmanChangeToCode(HuffmanTree huffmanTree, int nowRoot) {
 }
 
 
-
-void huffmanDecode(string code,  HuffmanTree huffmanTree, int size) {
+void huffmanDecode(string code, HuffmanTree huffmanTree, int size) {
     int i = 1;
     int startPlace = 0;
     while (i < code.length()) {
@@ -220,9 +223,10 @@ bool getValue(string code, HuffmanTree huffmanTree, int size) {
     }
     if (islower(s->wordAndWeight.data)) {
         cout << s->wordAndWeight.data;
+        delete s;
+
         return true;
-    } else {
-        return false;
     }
     delete s;
+    return false;
 }

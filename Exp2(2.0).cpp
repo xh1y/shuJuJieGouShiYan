@@ -129,6 +129,11 @@ void discardIllegalCharacter(string& s) {
             t.push_back(*i);
         }
     }
+    for (int i = 0; i < t.size(); i++) {
+        if (!isspace(t[i]) and (isLegalOperator(t[i]) or isdigit(t[i]))) {
+            t.push_back(t[i]);
+        }
+    }
     s = t;
 }
 

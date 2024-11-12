@@ -4,4 +4,4 @@ project(shuJuJieGouShiYan)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(shuJuJieGouShiYan
-    "Exp3NewVersion.cpp")
+        Exp4.cpp)
