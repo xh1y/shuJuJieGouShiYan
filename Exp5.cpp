@@ -9,18 +9,20 @@ using namespace std;
 
 typedef enum { smaller = -1, same, bigger } compare;
 
+typedef long long ElemType;
+
 typedef struct BinaryTreeNode {
-    int data;
+    ElemType data;
     BinaryTreeNode *left_child, *right_child;
 } BinaryTreeNode, *BinaryTree;
 compare compareSign(char op1, char op2);
-int initExpTree(string expression);
+ElemType initExpTree(const string& expression);
 bool isLegalOperator(char c);
-void createExpTree(BinaryTree &binaryTree, BinaryTree left_child, BinaryTree right_child, int root_data);
-int evaluateExpTree(BinaryTree binaryTree);
+void createExpTree(BinaryTree &binaryTree, BinaryTree left_child, BinaryTree right_child, ElemType root_data);
+ElemType evaluateExpTree(BinaryTree binaryTree);
 void discardIllegalCharacter(string &s);
-int getValue(char op, int a, int b);
-int getValueFromStack(stack<int> s);
+ElemType getValue(char op, ElemType a, ElemType b);
+ElemType getValueFromStack(stack<ElemType> s);
 int main() {
     string s;
     vector<string> Strings;
@@ -30,7 +32,7 @@ int main() {
         Strings.push_back(s);
     }
     for(const auto & String : Strings) {
-        int val = 0;
+        ElemType val = 0;
         bool err = false;
         try {
            val = initExpTree(String);
@@ -49,17 +51,17 @@ int main() {
     return 0;
 }
 
-int initExpTree(string expression) {
+ElemType initExpTree(const string& expression) {
     stack<BinaryTree> expt;
     stack<char> optr;
     optr.push('=');
     char operatorsInput;
-    int numbersInput;
+    ElemType numbersInput;
     BinaryTree binaryTree;
     bool findEqual = false;
-    for (int i = 0; i < expression.length(); i++) {
+    for (ElemType i = 0; i < expression.length(); i++) {
         if (isdigit(expression[i])) {
-            stack<int> numbers;
+            stack<ElemType> numbers;
             while(isdigit(expression[i])) {
                 numbers.push(expression[i]);
                 i++;
@@ -126,26 +128,26 @@ bool isLegalOperator(char c) {
     return c == '+' or c == '-' or c == '*' or c == '/' or c == '=' or c == '(' or c == ')';
 }
 
-void createExpTree(BinaryTree &binaryTree, BinaryTree left_child, BinaryTree right_child, int root_data) {
+void createExpTree(BinaryTree &binaryTree, BinaryTree left_child, BinaryTree right_child, ElemType root_data) {
     binaryTree = new BinaryTreeNode;
     binaryTree->data = root_data;
     binaryTree->left_child = left_child;
     binaryTree->right_child = right_child;
 }
 
-int evaluateExpTree(BinaryTree binaryTree) {
+ElemType evaluateExpTree(BinaryTree binaryTree) {
     if (binaryTree->left_child == nullptr && binaryTree->right_child == nullptr)
         return binaryTree->data;
-    int rightValue = 0;
-    int leftValue = 0;
+    ElemType rightValue = 0;
+    ElemType leftValue = 0;
     leftValue = evaluateExpTree(binaryTree->left_child);
     rightValue = evaluateExpTree(binaryTree->right_child);
-    int val = 0;
+    ElemType val = 0;
     val = getValue(binaryTree->data, leftValue, rightValue);
     return val;
 }
 
-int getValue(char op, int a, int b) {
+ElemType getValue(char op, ElemType a, ElemType b) {
     switch (op) {
     case '+':
         return a + b;
@@ -157,7 +159,7 @@ int getValue(char op, int a, int b) {
         if (b == 0) {
             throw "Divisor can't be 0!";
         }
-        return static_cast<int>(round(static_cast<double>(a) / static_cast<double>(b)));
+        return static_cast<ElemType>(round(static_cast<double>(a) / static_cast<double>(b)));
     default:
         return 0;
     }
@@ -173,10 +175,10 @@ void discardIllegalCharacter(string &s) {
     s = t;
 }
 
-int getValueFromStack(stack<int> s) {
-    int num = 0;
-    int mul = 1;
-    stack<int> sl = s;
+ElemType getValueFromStack(stack<ElemType> s) {
+    ElemType num = 0;
+    ElemType mul = 1;
+    stack<ElemType> sl = s;
     while (!s.empty()) {
         num += (s.top() - 48) * mul;
         s.pop();
