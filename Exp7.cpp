@@ -82,12 +82,12 @@ void useBFS(vec_vec_bool graph, int start, int total) {
                 vi.push_back(i);
             }
         }
-        for (int i = 0;i < vi.size();i++) {
-            if (!visited[vi[i]]) {
-                q.push(vi[i]);
-                visited[vi[i]] = true;
+        for (int i : vi) {
+            if (!visited[i]) {
+                q.push(i);
+                visited[i] = true;
                 count++;
-                tail = vi[i];
+                tail = i;
             }
         }
         if (t == last) {
@@ -100,4 +100,5 @@ void useBFS(vec_vec_bool graph, int start, int total) {
     double res = (count * 1.0) / total;
     cout.setf(ios_base::fixed, ios_base::floatfield);
     cout << start + 1 << ": " << setprecision(2) << res * 100 << "%" << endl;
+    free(visited);
 }

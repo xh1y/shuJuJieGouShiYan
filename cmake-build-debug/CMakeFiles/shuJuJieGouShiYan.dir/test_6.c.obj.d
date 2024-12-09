@@ -1,0 +1,24 @@
+CMakeFiles/shuJuJieGouShiYan.dir/test_6.c.obj: \
+ D:\files\code\repositories\custom\shuJuJieGouShiYan\test_6.c \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/stdio.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/corecrt_stdio_config.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/corecrt.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/_mingw.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/_mingw_mac.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/_mingw_secapi.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/vadefs.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/sdks/_mingw_ddk.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/_mingw_off_t.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/swprintf.inl \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/sec_api/stdio_s.h \
+ D:/compiler/gcc/mingw32/lib/gcc/i686-w64-mingw32/14.2.0/include/stdbool.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/stdlib.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/corecrt_wstdlib.h \
+ D:/compiler/gcc/mingw32/lib/gcc/i686-w64-mingw32/14.2.0/include/limits.h \
+ D:/compiler/gcc/mingw32/lib/gcc/i686-w64-mingw32/14.2.0/include/syslimits.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/limits.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/crtdefs.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/sec_api/stdlib_s.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/malloc.h \
+ D:/compiler/gcc/mingw32/lib/gcc/i686-w64-mingw32/14.2.0/include/mm_malloc.h \
+ D:/compiler/gcc/mingw32/i686-w64-mingw32/include/errno.h

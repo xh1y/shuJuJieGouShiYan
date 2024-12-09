@@ -55,12 +55,12 @@ int main() {
     for (int questionNumber = 0; questionNumber < answers.size(); questionNumber++) {
         vec_vec_int graph = createGraph(answers[questionNumber]);
         // cout << questionNumber << ": " << endl;
-        // for (int i = 0; i < graph.size(); i++) {
-        //     for (int j = 0; j < graph[i].size(); j++) {
-        //         cout << setw(4) << ((graph[i][j] == inf) ? -1 : graph[i][j]) << " ";
-        //     }
-        //     cout << endl;
-        // }
+        for (int i = 0; i < graph.size(); i++) {
+            for (int j = 0; j < graph[i].size(); j++) {
+                cout << setw(4) << ((graph[i][j] == inf) ? -1 : graph[i][j]) << " ";
+            }
+            cout << endl;
+        }
         Dijkstra(graph, answers[questionNumber], findCityNum(answers[questionNumber], answers[questionNumber].startCity), findCityNum(answers[questionNumber], answers[questionNumber].endCity));
     }
 

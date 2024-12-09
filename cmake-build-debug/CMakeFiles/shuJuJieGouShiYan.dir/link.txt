@@ -1,0 +1,3 @@
+D:\app\jetbrains\CLion\bin\cmake\win\x64\bin\cmake.exe -E rm -f CMakeFiles\shuJuJieGouShiYan.dir/objects.a
+D:\compiler\gcc\mingw32\bin\ar.exe qc CMakeFiles\shuJuJieGouShiYan.dir/objects.a @CMakeFiles\shuJuJieGouShiYan.dir\objects1.rsp
+D:\compiler\gcc\mingw32\bin\c++.exe -g -Wl,--whole-archive CMakeFiles\shuJuJieGouShiYan.dir/objects.a -Wl,--no-whole-archive -o shuJuJieGouShiYan.exe -Wl,--out-implib,libshuJuJieGouShiYan.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\shuJuJieGouShiYan.dir\linkLibs.rsp
